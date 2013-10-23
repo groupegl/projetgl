@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<title>Acceuil :: chaudiere et composants  </title>
+<link rel="stylesheet" href="css/style.css">
+<!-- chargement des scripts -->	
+<script src="javascript/jquery.js"></script>
+<script src="javascript/modernizr.js"></script>
+</head>
+<body class="no-js">
+<p><button id="tri" type="button" onclick="sendDSL()">Charger le
+JSON</button></p>
+<div id="entete"> <img src="" /> </div>
+<!-- Emplacement du menu -->
+<div id="navigation">		
+<nav id="topNav">
+	<ul>
+		<li><a href="#" title="">Accueil</a></li>
+		
+		<li><a href="#" title="">Chaudiere</a>
+			<ul>
+				<li><a href="#" title="">Murale</a></li>
+				<li><a href="#" title="">Gaz</a></li>
+				<li><a href="#" title="">Energie renouvelable</a></li>
+			</ul>
+		</li>
+		<li><a href="#" title="">Panier</a>
+			<ul>
+				<li><a href="#" title="">Commandes</a></li>
+				<li><a href="#" title="">Panier</a></li>
+			</ul>     				
+		</li>
+		<li class="last"><a href="Contact.html" title="">Contact</a></li>
+	</ul>
+</nav>	
+<div id="centrale">
+	<p class="recherche">
+		<input type="text" name="civilite" value="" />  <br />
+		<input type="submit" name="civilite" value="Search" /> <br />
+		Marque <br/>
+		<select  id="triComposants">
+			<option> </option>
+			<option> ElmLEblanc</option>
+			<option> Boch </option>
+        	</select> <br/>
+		Tri des composants<br/> 
+	    	<select  id="triComposants">
+			<option> </option>
+			<option id="prix" value="prix"> Prix</option>
+			<option  id="ordre" value="ordre alphabetique"> Orde Lphabetique </option>
+			<option id="marque" value="marque"> References </option>
+            	</select> 
+	</p>
+</div>
+<div id="contenu"><div id="composant">
+<script>
+alert("Bienvenue dans notre site , il s' agit du projet s4d! , bonne visite "); 
+var el = document.getElementsByTagName("body")[0];
+el.className = "";
+(function($)
+{
+		var nav = $("#topNav");
+		nav.find("li").each(function() {
+			if ($(this).find("ul").length > 0) 
+			{
+				$("<span>").text("^").appendTo($(this).children(":first"));
+				$(this).mouseenter(function() {
+				$(this).find("ul").stop(true, true).slideDown();});
+				$(this).mouseleave(function() {
+				$(this).find("ul").stop(true, true).slideUp();});
+			}
+						});
+})(jQuery);
+var lien1=['images/large.jpeg','images/large1.jpeg','images/large.jpeg','images/large1.jpeg','images/large.jpeg','images/large1.jpeg'];
+var lien2=['images/large1.jpeg','images/large.jpeg','images/large1.jpeg','images/large.jpeg','images/large1.jpeg','images/large.jpeg'];
+var numero=0;
+//-------------------------------------------------------------------
+function page(){
+	var p = document.createElement('p') ;
+	for(var i=0 ; i<lien1.length ;i++){
+	var a = document.createElement('a') ;
+	a.innerHTML = i+1;
+	a.id=i; 
+	a.setAttribute('src',i) ;
+	a.addEventListener('click',function(){
+	if( numero < this.id){
+		numero = this.id;
+	}
+	afficher(lien2,numero);alert(numero) },true ) ;
+	p.appendChild(a); 
+	
+	}
+	var div = document.getElementById('numerodepage')
+	div.appendChild(p);
+}
+//--------------------------------------------------------------------------------------fonction affichage du menu déroulant
+function afficher(lien,j){
+var aVider = document.getElementById('composant') ;
+if( aVider.hasChildNodes()){
+aVider.parentNode.removeChild(aVider);
+}
+for(var i=j; i<j+1;i++){ 
+	var div = document.createElement('div') ;
+	div.id="composant" ; 
+	var centrale = document.getElementById('centrale')
+	centrale.appendChild(div);
+	var p = document.createElement('p') ;
+	p.id= lien[i] ;  
+	document.getElementById('composant').appendChild(p); 
+	var hr = document.createElement('hr') ;
+	document.getElementById(lien[i]).appendChild(hr); 
+	var  composant = document.createElement('img') ; 
+	composant.setAttribute('src',lien[i]) ;
+	document.getElementById(lien[i]).appendChild(composant); 
+	var titre = document.createElement('h1') ; 
+	document.getElementById(lien[i]).appendChild(titre); 
+	titre.innerHTML = lien[i];  
+	document.getElementById(lien[i]).appendChild(hr); 
+	}
+	numero = i;
+}
+
+var tri ;
+var cap1 = document.getElementById('prix') ;  
+var cap2 = document.getElementById('ordre') ;
+var cap3 = document.getElementById('marque') ;
+cap1.addEventListener('click',function(){afficher(lien1,1),
+page() },true ) ;
+cap2.addEventListener('click',function(){
+afficher(lien2,1);page() },true ) ;
+cap3.addEventListener('click',function(){
+afficher(lien1,1);page() },true ) ;
+//---------------------------------------------------fonction recuperation de l'information et affichage boite
+function receiveMessage(json) {
+var test ;
+var b ;
+for(node in json){
+test =json[node];
+for(a in json[node]){
+ b = json[node][a].split(',');
+}
+}
+for(node1 in b){
+
+	alert(b[node1]) ;
+}
+}
+//--------------------------------------------------------------------------------
+</script>
+</div>
+</div>
+<div id="numerodepage"> </div>
+<div id="piedes de pagese">
+<p id="basdepage" > Copyright groupe s4d , projet GL </p>
+</div>
+</body>
+</html>
