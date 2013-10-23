@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<title>Contact </title>
+
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/styleFormulaire.css">
+<!-- chargement des scripts -->	
+<script src="scr/jquery.js"></script>
+<script src="scr/modernizr.js"></script>
+</head>
+<body class="no-js">
+<!-- Emplacement du menu -->		
+<nav id="topNav">
+	<ul>
+	<li><a href="index.html" title="">Accueil</a></li>
+	<li><a href="#" title="">Chaudiere</a>
+		<ul>
+		<li><a href="#" title="">Murale</a></li>
+		<li><a href="#" title="">Gaz</a></li>
+		<li><a href="#" title="">Energie renouvelable</a></li>
+		</ul>
+	</li>
+	<li><a href="#" title="">Panier</a>
+		<ul>
+		<li><a href="#" title="">Commandes</a></li>
+		<li><a href="#" title="">Panier</a></li>
+		</ul>     				
+	</li>
+	<li class="last"><a href="Contact.html" title="">Contact</a></li>
+	</ul>
+</nav>	
+	<div id="centrale">
+<form id="myForm">
+	<span class="form_col">Sexe :</span>
+	<label><input id="sex" type="radio" value="H"/>Homme</label>
+	<label><input id="sex" type="radio" value="F"/>Femme</label>
+	<span class="tooltip">Vous devez selectionnez votresexe</span><br /><br />
+	<label class="form_col" for="lastName">Nom :</label>
+	<input name="lastName" id="lastName" type="text" />
+	<span class="tooltip">Un nom ne peut pas faire moins de 2caracteres</span>
+	<br /><br />
+	<label class="form_col" for="firstName">Prenom :</label>
+	<input name="firstName" id="firstName" type="text" />
+	<span class="tooltip">Un prenom ne peut pas faire moins de 2caracteres</span>
+	<br /><br />
+	<label class="form_col" for="age">age :</label>
+	<input name="age" id="age" type="text" />
+	<span class="tooltip">L'age doit etre compris entre 5 et 140</span>
+	<br /><br />
+	<label class="form_col" for="country">Pays :</label>
+	<select name="country" id="country">
+	<option value="none">Selectionnez votre pays de residence</option>
+	<option value="en">Angleterre</option>
+	<option value="us">etats-Unis</option>
+	<option value="fr">France</option>
+	</select>
+	<span class="tooltip">Vous devez selectionner votre pays deresidence</span>
+	<br /><br />
+	 <label class="form_col" for="Message">Message :</label>
+	<textarea name="message" id="message" rows="10" cols="70" > Votre message ici </textarea>
+	<span class="tooltip">Le message ne doit pas etre vide</span>
+	<br /><br />
+	<span class="form_col"></span>
+	<input type="submit" value="M'inscrire" /> <input type="reset"
+	value="Reinitialiser le formulaire" />
+	
+
+	</form>
+<script>
+var el = document.getElementsByTagName("body")[0];
+	el.className = "";
+	
+	(function($){
+		var nav = $("#topNav");
+		nav.find("li").each(function() {
+			if ($(this).find("ul").length > 0) {
+				$("<span>").text("^").appendTo($(this).children(":first"));
+				$(this).mouseenter(function() {
+				$(this).find("ul").stop(true, true).slideDown();});
+				$(this).mouseleave(function() {
+				$(this).find("ul").stop(true, true).slideUp();});
+			}
+		});
+	})(jQuery);
+
+function deactivateTooltips() {
+	var spans = document.getElementsByTagName('span'),
+	spansLength = spans.length;
+	for (var i = 0 ; i < spansLength ; i++) {
+		if (spans[i].className == 'tooltip') {
+			spans[i].style.display = 'none';
+		}
+	}
+}
+deactivateTooltips()
+function getTooltip(element) {
+	while (element = element.nextSibling) {
+		if (element.className === 'tooltip') {
+			return element;
+		}
+	}
+	return false ; 
+}
+var check = {} ; 
+
+check['sex'] = function(id) {
+	alert("sdsd");
+	var sex = document.getElementsById(id),
+	tooltipStyle = getTooltip(sex[1].parentNode).style;
+	if (sex[0].checked || sex[1].checked) {
+	tooltipStyle.display = 'none';
+	return true;
+	}
+	 else {
+	tooltipStyle.display = 'inline-block';
+	return false;
+	}
+};
+check['lastName'] = function non(id) {
+	var name = document.getElementById(id),
+	tooltipStyle = getTooltip(name).style;
+	if (name.value.length >= 2) {
+	name.className = 'correct';
+	tooltipStyle.display = 'none';
+	return true;
+	} 
+else {
+	name.className = 'incorrect';	
+	tooltipStyle.display = 'inline-block';
+	return false;
+	}
+};
+
+check['firstName'] = check['lastName']  ;
+ 
+check['age'] = function() {
+	var age = document.getElementById('age'),
+	tooltipStyle = getTooltip(age).style,
+	ageValue = parseInt(age.value);
+	if (!isNaN(ageValue) && ageValue >= 5 && ageValue <= 140) {
+	age.className = 'correct';
+	tooltipStyle.display = 'none';
+	return true;
+} 
+else {
+	age.className = 'incorrect';
+	tooltipStyle.display = 'inline-block';
+	return false;
+}
+};
+check['country'] = function() {
+	var country = document.getElementById('country'),
+	tooltipStyle = getTooltip(country).style;
+	if (country.options[country.selectedIndex].value != 'none') {
+	tooltipStyle.display = 'none';
+	return true;
+} 
+	else {
+	tooltipStyle.display = 'inline-block';
+	return false;
+	}
+};
+	var pays = document.getElementsByTagName('select'),
+	paysLength = pays.length;
+	
+	for (var i = 0 ; i < paysLength ; i++) {
+	pays[i].onclick = function(){
+		check[this.id](this.id); 
+	}
+	}
+	var myForm = document.getElementById('myForm'),
+	 inputs = document.getElementsByTagName('input'),
+	 inputsLength = inputs.length;
+	for (var i = 0 ; i < inputsLength ; i++) {
+	if (inputs[i].type == 'text' || inputs[i].type ==
+	'password') {
+	inputs[i].onkeyup = function() {
+		check[this.id](this.id); 
+	};
+	}
+	
+
+	}
+</script>
+</body>
+</html>
+
